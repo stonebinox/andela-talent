@@ -1,11 +1,10 @@
 # Andela Pages
 
-Repository for some of Andela's webpages.
+Repository for some of Andela's talent signup.
 
 ## List of accessible routes
 
-- / : [Client signup wizard](https://choose.andela.com)
-- /talent-signup/ : [Talent signup wizard](https://choose.andela.com/talent-signup/) - actual production route may vary
+- / : [Talent signup wizard](https://signup.andela.com)
 
 ## Key integrations
 
