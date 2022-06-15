@@ -67,7 +67,7 @@ export const FocusDotContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  margin-top: ${spacing.customSpacing("64px")};
+  margin-top: ${spacing.DOUBLE_BASE_SPACING};
 `
 
 export const FocusDot = styled.div`
@@ -103,7 +103,7 @@ export const StepProgressContainer = styled.div`
   display: flex;
   flex-direction: row;
   margin: 0 auto;
-  margin-top: ${spacing.customSpacing("64px")};
+  margin-top: ${spacing.DOUBLE_BASE_SPACING};
   max-width: ${spacing.customSpacing("648px")};
 
   @media (max-width: ${spacing.customSpacing("428px")}) {
@@ -122,7 +122,7 @@ export const StepProgress = styled.div`
 
 export const StepContainer = styled.div`
   width: 100%;
-  margin-top: ${spacing.customSpacing("80px")};
+  margin-top: ${spacing.customSpacing("64px")};
 `
 
 export const StepQuestion = styled.div`
@@ -138,7 +138,7 @@ export const ProblemsContainer = styled.div`
   width: 100%;
   max-width: ${spacing.customSpacing("536px")};
   margin: 0 auto;
-  margin-top: ${spacing.customSpacing("64px")};
+  margin-top: ${spacing.DOUBLE_BASE_SPACING};
 `
 
 export const ProblemOption = styled.div`
@@ -361,7 +361,7 @@ export const SelectedSearchSkillsContainer = styled.div`
 `
 
 export const ButtonContainer = styled.div`
-  margin-top: ${spacing.customSpacing("64px")};
+  margin-top: ${spacing.DOUBLE_BASE_SPACING};
   display: flex;
   flex-direction: row;
   justify-content: center;
