@@ -56,6 +56,7 @@ const Step1 = ({ setFormStepAnswer, savedValue = null }) => {
 
   const submitAnswer = () => {
     let valid = true
+    
     setInvalidFirstName(false)
     setInvalidLastName(false)
     setInvalidEmail(false)
