@@ -24,6 +24,7 @@ import {
 import {
   HeroDescription,
   HeroTitle,
+  HiddenForm,
 } from "../components/talent-signup/talent-signup.styles"
 import Step1 from "../components/talent-signup/step-1"
 import Step2 from "../components/talent-signup/step-2"
@@ -271,6 +272,7 @@ const TalentSignupPage = () => {
             <StepProgress selected={step >= 4} />
           </StepProgressContainer>
           {!loading ? getStep() : <LoadingText>Loading ...</LoadingText>}
+          <HiddenForm id="mktoForm_1055" name="mktoForm_1055" />
         </MainContainer>
       </FormContainer>
     </PageContainer>
