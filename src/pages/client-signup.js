@@ -292,8 +292,6 @@ const SignupPage = () => {
       user_agent: document.mktoForm_1053?.user_agent?.value ?? "",
     }
 
-    console.log(finalForm)
-
     parentForm.vals(finalForm)
 
     if (parentForm.validate()) {
