@@ -28,10 +28,22 @@ const options = [
 ]
 
 const yearsOptions = [
-  "Associate (0-3 yrs professional experience)",
-  "Mid Level (3-8 yrs professional experience)",
-  "Senior (8-12 yrs professional experience)",
-  "Principal (12+ yrs professional experience)",
+  {
+    value: "Associate (0-3 yrs professional experience)",
+    label: "0-3 yrs professional experience",
+  },
+  {
+    value: "Mid Level (3-8 yrs professional experience)",
+    label: "3-8 yrs professional experience",
+  },
+  {
+    value: "Senior (8-12 yrs professional experience)",
+    label: "8-12 yrs professional experience",
+  },
+  {
+    value: "Principal (12+ yrs professional experience)",
+    label: "12+ yrs professional experience",
+  },
 ]
 
 const Step3 = ({ goBack, setFormStepAnswer }) => {
@@ -188,9 +200,9 @@ const Step3 = ({ goBack, setFormStepAnswer }) => {
               value={totalExperience}
             >
               <option value="Select...">Select...</option>
-              {yearsOptions.map(experience => (
-                <option key={experience} value={experience}>
-                  {experience}
+              {yearsOptions.map(({ value, label }) => (
+                <option key={label} value={value}>
+                  {label}
                 </option>
               ))}
             </DropdownField>
