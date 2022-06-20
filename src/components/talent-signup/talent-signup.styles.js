@@ -87,3 +87,7 @@ export const LabelSubtext = styled.div`
   margin-left: ${spacing.customSpacing("12px")};
   margin-top: -${spacing.customSpacing("6px")};
 `
+
+export const HiddenForm = styled.form`
+  display: none;
+`
