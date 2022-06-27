@@ -56,7 +56,7 @@ const Step1 = ({ setFormStepAnswer, savedValue = null }) => {
 
   const submitAnswer = () => {
     let valid = true
-    
+
     setInvalidFirstName(false)
     setInvalidLastName(false)
     setInvalidEmail(false)
@@ -79,7 +79,7 @@ const Step1 = ({ setFormStepAnswer, savedValue = null }) => {
 
     if (
       email.trim() === "" ||
-      !/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email)
+      !/[+\w0-9._-]+@[\w0-9._-]+\.[\w0-9_-]+/.test(email)
     ) {
       valid = false
       setInvalidEmail(true)
