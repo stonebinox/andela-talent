@@ -40,12 +40,20 @@ export const primarySkills = [
     skill_name: "DevOps",
   },
   {
+    skill_label: "DevOps (AWS)",
+    skill_name: "DevOps (AWS)",
+  },
+  {
     skill_label: "DevSecOps",
     skill_name: "DevSecOps",
   },
   {
     skill_label: "Cloud Engineering",
     skill_name: "Cloud Engineering",
+  },
+  {
+    skill_label: "Cloud Engineering (AWS)",
+    skill_name: "Cloud Engineering (AWS)",
   },
   {
     skill_label: "SRE",
@@ -96,6 +104,10 @@ export const primarySkills = [
     skill_name: "Unity",
   },
   {
+    skill_label: "Blockchain",
+    skill_name: "Blockchain",
+  },
+  {
     skill_label: "Data Engineering",
     skill_name: "Data Engineering",
   },
@@ -112,8 +124,24 @@ export const primarySkills = [
     skill_name: "Salesforce - Admin",
   },
   {
+    skill_label: "Salesforce - Architect",
+    skill_name: "Salesforce - Architect",
+  },
+  {
+    skill_label: "Salesforce - BA/PM/PO",
+    skill_name: "Salesforce - BA/PM/PO",
+  },
+  {
+    skill_label: "Salesforce - Commerce Cloud",
+    skill_name: "Salesforce - Commerce Cloud",
+  },
+  {
     skill_label: "Salesforce - Developer",
     skill_name: "Salesforce - Developer",
+  },
+  {
+    skill_label: "Salesforce - Marketer",
+    skill_name: "Salesforce - Marketer",
   },
   {
     skill_label: "Mulesoft",
