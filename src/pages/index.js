@@ -54,7 +54,8 @@ const TalentSignupPage = () => {
       setLoading(false)
 
       finalForm.onSuccess(() => {
-        jumpToStep(4)
+        // jumpToStep(4)
+        window.location = "https://andela.com/join-andela/success/"
         return false
       })
 
