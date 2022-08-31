@@ -72,7 +72,11 @@ const Step1 = ({ setFormStepAnswer, savedValue = null }) => {
       setInvalidFirstName(true)
     }
 
-    if (lastName.trim() === "") {
+    if (
+      lastName.trim() === "" ||
+      lastName.trim().length <= 1 ||
+      /[!@#$%^&*()_+=[\]{};':"\\|,.<>/?]+/.test(lastName.trim())
+    ) {
       valid = false
       setInvalidLastName(true)
     }
