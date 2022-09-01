@@ -55,8 +55,6 @@ const Step1 = ({ setFormStepAnswer, savedValue = null }) => {
   const dataLayer = getDataLayer()
 
   const submitAnswer = () => {
-    let valid = true
-
     setInvalidFirstName(false)
     setInvalidLastName(false)
     setInvalidEmail(false)
@@ -68,21 +66,28 @@ const Step1 = ({ setFormStepAnswer, savedValue = null }) => {
     }
 
     if (firstName.trim() === "") {
-      valid = false
       setInvalidFirstName(true)
+      alert("Please enter a valid first name.")
+      return
     }
 
-    if (lastName.trim() === "") {
-      valid = false
+    if (
+      lastName.trim() === "" ||
+      lastName.trim().length <= 1 ||
+      /[!@#$%^&*()_+=[\]{};:"\\|,.<>0-9/?]+/.test(lastName.trim())
+    ) {
       setInvalidLastName(true)
+      alert("Please enter a valid last name.")
+      return
     }
 
     if (
       email.trim() === "" ||
       !/[+\w0-9._-]+@[\w0-9._-]+\.[\w0-9_-]+/.test(email)
     ) {
-      valid = false
       setInvalidEmail(true)
+      alert("Please enter a valid email address.")
+      return
     }
 
     if (
@@ -90,12 +95,8 @@ const Step1 = ({ setFormStepAnswer, savedValue = null }) => {
       country.trim() === "Select country ..." ||
       !countries.some(countryEntry => countryEntry === country)
     ) {
-      valid = false
       setInvalidCountry(true)
-    }
-
-    if (!valid) {
-      alert("Please enter valid content in the form")
+      alert("Please select a valid country from the list.")
       return
     }
 
