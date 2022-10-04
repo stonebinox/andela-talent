@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from "react"
 import { ReactSVG } from "react-svg"
+import styled from "styled-components"
 
 import {
   ButtonContainer,
@@ -16,9 +17,19 @@ import { InputLabel, LabelSubtext, StepQuestion } from "./talent-signup.styles"
 import Code from "../../images/code.svg"
 import People from "../../images/people.svg"
 import PersonGear from "../../images/person-gear.svg"
+import Envelope from "../../images/envelope.svg"
+import Person1 from "../../images/person-1.svg"
 import { getDataLayer, getSendSafely } from "../../utils/api"
 import { greenBlack, greyWhite } from "../../utils/colors"
 import { spacing } from "../../utils/spacing"
+
+const PersonSVG = styled(ReactSVG)`
+  width: ${spacing.customSpacing("20px")};
+  height: ${spacing.customSpacing("20px")};
+  margin-top: -${spacing.customSpacing("6px")};
+  margin-left: -${spacing.customSpacing("10px")};
+  margin-right: ${spacing.QUARTER_BASE_SPACING};
+`
 
 const options = [
   "Native",
@@ -65,6 +76,10 @@ const Step3 = ({ goBack, setFormStepAnswer }) => {
   const [invalidEnglishLevel, setInvalidEnglishLevel] = useState(false)
 
   const [referrer, setReferrer] = useState("Select...")
+  const [referrerValue, setReferrerValue] = useState("")
+  const [displayReferrerEmail, setDisplayReferrerEmail] = useState(false)
+  const [displayReferrerField, setDisplayReferrerField] = useState(false)
+
   const [totalExperience, setTotalExperience] = useState("Select...")
   const [invalidExperience, setInvalidExperience] = useState(false)
   const [sendSafelyWidget, setSendSafelyWidget] = useState(null)
@@ -181,6 +196,19 @@ const Step3 = ({ goBack, setFormStepAnswer }) => {
   }, [resumeUrl])
 
   useEffect(() => {
+    if (referrer === "Referral by Andelan") {
+      setDisplayReferrerEmail(true)
+      setDisplayReferrerField(false)
+    } else if (referrer === "Referral Other" || referrer === "Other") {
+      setDisplayReferrerEmail(false)
+      setDisplayReferrerField(true)
+    } else {
+      setDisplayReferrerEmail(false)
+      setDisplayReferrerField(false)
+    }
+  }, [referrer])
+
+  useEffect(() => {
     loadUploader()
   }, [])
 
@@ -221,7 +249,7 @@ const Step3 = ({ goBack, setFormStepAnswer }) => {
               ))}
             </DropdownField>
           </InputContainer>
-          <InputLabel>Referred by (first and last name)</InputLabel>
+          <InputLabel>How did you hear about us?</InputLabel>
           <InputContainer>
             <ReactSVG src={People} />
             <DropdownField
@@ -237,6 +265,38 @@ const Step3 = ({ goBack, setFormStepAnswer }) => {
               ))}
             </DropdownField>
           </InputContainer>
+          {displayReferrerEmail && (
+            <>
+              <InputLabel>Email address</InputLabel>
+              <InputContainer>
+                <ReactSVG src={Envelope} />
+                <InputField
+                  type="email"
+                  name="email"
+                  label="email"
+                  value={referrerValue}
+                  onChange={e => setReferrerValue(e.currentTarget.value)}
+                  placeholder="Enter a valid email address"
+                />
+              </InputContainer>
+            </>
+          )}
+          {displayReferrerField && (
+            <>
+              <InputLabel>Name or email</InputLabel>
+              <InputContainer>
+                <PersonSVG src={Person1} />
+                <InputField
+                  type="text"
+                  name="referrerValue"
+                  label="Name or email"
+                  value={referrerValue}
+                  onChange={e => setReferrerValue(e.currentTarget.value)}
+                  placeholder="Enter an email address or name"
+                />
+              </InputContainer>
+            </>
+          )}
           <InputLabel>Upload your resume</InputLabel>
           <LabelSubtext>Only PDF files are accepted</LabelSubtext>
           <div id="dropzone" />
