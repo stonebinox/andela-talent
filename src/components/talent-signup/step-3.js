@@ -46,11 +46,25 @@ const yearsOptions = [
   },
 ]
 
+const referralOptions = [
+  "Job Posts",
+  "Social Media",
+  "Search Engine",
+  "Advertising",
+  "News",
+  "Email",
+  "In-Person Event",
+  "Word of mouth",
+  "Referral by Andelan",
+  "Referral Other",
+  "Other",
+]
+
 const Step3 = ({ goBack, setFormStepAnswer }) => {
   const [englishLevel, setEnglishLevel] = useState("Select...")
   const [invalidEnglishLevel, setInvalidEnglishLevel] = useState(false)
 
-  const [referrer, setReferrer] = useState("")
+  const [referrer, setReferrer] = useState("Select...")
   const [totalExperience, setTotalExperience] = useState("Select...")
   const [invalidExperience, setInvalidExperience] = useState(false)
   const [sendSafelyWidget, setSendSafelyWidget] = useState(null)
@@ -210,12 +224,18 @@ const Step3 = ({ goBack, setFormStepAnswer }) => {
           <InputLabel>Referred by (first and last name)</InputLabel>
           <InputContainer>
             <ReactSVG src={People} />
-            <InputField
-              type="text"
-              name="referrer"
+            <DropdownField
+              name="referralBy"
               value={referrer}
               onChange={e => setReferrer(e.currentTarget.value)}
-            />
+            >
+              <option value="Select...">Select...</option>
+              {referralOptions.map((option, index) => (
+                <option key={index} value={option}>
+                  {option}
+                </option>
+              ))}
+            </DropdownField>
           </InputContainer>
           <InputLabel>Upload your resume</InputLabel>
           <LabelSubtext>Only PDF files are accepted</LabelSubtext>
