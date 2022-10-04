@@ -79,6 +79,8 @@ const Step3 = ({ goBack, setFormStepAnswer }) => {
   const [referrerValue, setReferrerValue] = useState("")
   const [displayReferrerEmail, setDisplayReferrerEmail] = useState(false)
   const [displayReferrerField, setDisplayReferrerField] = useState(false)
+  const [displayReferrerFieldError, setDisplayReferrerFieldError] =
+    useState(false)
 
   const [totalExperience, setTotalExperience] = useState("Select...")
   const [invalidExperience, setInvalidExperience] = useState(false)
@@ -123,6 +125,7 @@ const Step3 = ({ goBack, setFormStepAnswer }) => {
     setInvalidEnglishLevel(false)
     setInvalidExperience(false)
     setDisableButton(true)
+    setDisplayReferrerFieldError(false)
 
     if (englishLevel === "Select...") {
       alert("Please select your English proficiency level.")
@@ -133,6 +136,25 @@ const Step3 = ({ goBack, setFormStepAnswer }) => {
     if (totalExperience === "Select...") {
       alert("Please select your total work experience.")
       setInvalidExperience(true)
+      return
+    }
+
+    if (
+      referrer === "Referral by Andelan" &&
+      (referrerValue?.trim() === "" ||
+        !/[+\w0-9._-]+@[\w0-9._-]+\.[\w0-9_-]+/.test(referrerValue))
+    ) {
+      setDisplayReferrerFieldError(true)
+      alert("Please enter a valid referrer email address.")
+      return
+    }
+
+    if (
+      (referrer === "Referral Other" || referrer === "Other") &&
+      referrerValue?.trim() === ""
+    ) {
+      setDisplayReferrerFieldError(true)
+      alert("Please enter some text for referral source.")
       return
     }
 
@@ -268,7 +290,7 @@ const Step3 = ({ goBack, setFormStepAnswer }) => {
           {displayReferrerEmail && (
             <>
               <InputLabel>Email address</InputLabel>
-              <InputContainer>
+              <InputContainer invalid={displayReferrerFieldError}>
                 <ReactSVG src={Envelope} />
                 <InputField
                   type="email"
@@ -284,7 +306,7 @@ const Step3 = ({ goBack, setFormStepAnswer }) => {
           {displayReferrerField && (
             <>
               <InputLabel>Name or email</InputLabel>
-              <InputContainer>
+              <InputContainer invalid={displayReferrerFieldError}>
                 <PersonSVG src={Person1} />
                 <InputField
                   type="text"
