@@ -50,7 +50,10 @@ const TalentSignupPage = () => {
       return
     }
 
-    form?.loadForm("//hire.andela.com", "449-UCH-555", 1055, finalForm => {
+    // form?.loadForm("//hire.andela.com", "449-UCH-555", 1055, finalForm => { <- enable this before going live
+
+    form?.loadForm("//hire.andela.com", "449-UCH-555", 1880, finalForm => {
+      console.log(finalForm.vals())
       setLoading(false)
 
       finalForm.onSuccess(() => {

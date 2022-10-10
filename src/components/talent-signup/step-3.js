@@ -271,7 +271,7 @@ const Step3 = ({ goBack, setFormStepAnswer }) => {
               ))}
             </DropdownField>
           </InputContainer>
-          <InputLabel>How did you hear about us?</InputLabel>
+          <InputLabel>How did you hear about us? (optional)</InputLabel>
           <InputContainer>
             <ReactSVG src={People} />
             <DropdownField
@@ -298,7 +298,7 @@ const Step3 = ({ goBack, setFormStepAnswer }) => {
                   label="email"
                   value={referrerValue}
                   onChange={e => setReferrerValue(e.currentTarget.value)}
-                  placeholder="Enter a valid email address"
+                  placeholder="Enter a valid Andelan email address"
                 />
               </InputContainer>
             </>
@@ -314,7 +314,7 @@ const Step3 = ({ goBack, setFormStepAnswer }) => {
                   label="Name or email"
                   value={referrerValue}
                   onChange={e => setReferrerValue(e.currentTarget.value)}
-                  placeholder="Enter an email address or name"
+                  placeholder="Please specify"
                 />
               </InputContainer>
             </>
