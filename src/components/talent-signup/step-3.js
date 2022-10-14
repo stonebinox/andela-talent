@@ -96,15 +96,7 @@ const Step3 = ({ goBack, setFormStepAnswer }) => {
   const finalizeUpload = () => {
     if (disableButton) return
 
-    if (sendSafelyWidget?.nbrOfFilesAttached <= 0) {
-      alert("Please attach your resume before submitting.")
-      return
-    }
-
-    if (sendSafelyWidget?.nbrOfFilesAttached > 1) {
-      alert("Please attach only one file to submit.")
-      return
-    }
+    if (!validateFields()) return
 
     sendSafelyWidget?.finalizePackage(url => {
       setResumeUrl(url)
@@ -121,32 +113,32 @@ const Step3 = ({ goBack, setFormStepAnswer }) => {
     }
   }
 
-  const submitAnswer = () => {
+  const validateFields = () => {
     setInvalidEnglishLevel(false)
     setInvalidExperience(false)
-    setDisableButton(true)
     setDisplayReferrerFieldError(false)
 
     if (englishLevel === "Select...") {
       alert("Please select your English proficiency level.")
       setInvalidEnglishLevel(true)
-      return
+      return false
     }
 
     if (totalExperience === "Select...") {
       alert("Please select your total work experience.")
       setInvalidExperience(true)
-      return
+      return false
     }
 
     if (
       referrer === "Referral by Andelan" &&
       (referrerValue?.trim() === "" ||
-        !/[+\w0-9._-]+@[\w0-9._-]+\.[\w0-9_-]+/.test(referrerValue))
+        !/[+\w0-9._-]+@[\w0-9._-]+\.[\w0-9_-]+/.test(referrerValue) ||
+        referrerValue.indexOf("@andela.") === -1)
     ) {
       setDisplayReferrerFieldError(true)
-      alert("Please enter a valid referrer email address.")
-      return
+      alert("Please enter a valid Andelan email address.")
+      return false
     }
 
     if (
@@ -155,9 +147,23 @@ const Step3 = ({ goBack, setFormStepAnswer }) => {
     ) {
       setDisplayReferrerFieldError(true)
       alert("Please enter some text for referral source.")
-      return
+      return false
     }
 
+    if (sendSafelyWidget?.nbrOfFilesAttached <= 0) {
+      alert("Please attach your resume before submitting.")
+      return false
+    }
+
+    if (sendSafelyWidget?.nbrOfFilesAttached > 1) {
+      alert("Please attach only one file to submit.")
+      return false
+    }
+
+    return true
+  }
+
+  const submitAnswer = () => {
     dataLayer?.push(
       {
         event: "dataLayerEvent",
@@ -173,9 +179,12 @@ const Step3 = ({ goBack, setFormStepAnswer }) => {
       }
     )
 
+    setDisableButton(true)
+
     setFormStepAnswer({
       englishProficiency: englishLevel,
-      tLReferredBy: referrer,
+      tLReferredBy: referrerValue,
+      howdidyouHearAboutUs: referrer,
       tLSeniorityLevel: totalExperience,
       tLDropzoneLink: resumeUrl,
     })

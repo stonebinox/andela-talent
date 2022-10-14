@@ -53,11 +53,9 @@ const TalentSignupPage = () => {
     // form?.loadForm("//hire.andela.com", "449-UCH-555", 1055, finalForm => { <- enable this before going live
 
     form?.loadForm("//hire.andela.com", "449-UCH-555", 1880, finalForm => {
-      console.log(finalForm.vals())
       setLoading(false)
 
       finalForm.onSuccess(() => {
-        // jumpToStep(4)
         window.location = "https://andela.com/join-andela/success/"
         return false
       })
@@ -140,10 +138,19 @@ const TalentSignupPage = () => {
   }
 
   const submitAllData = formattedForm => {
-    parentForm.vals({
+    console.log(parentForm.vals(), "first")
+
+    const finalisedFormData = {
+      ...parentForm.vals(),
       ...formattedForm,
       tLTalentNetworkTerms: true,
-    })
+    }
+
+    console.log("final", finalisedFormData)
+
+    parentForm.vals(finalisedFormData)
+
+    console.log(parentForm.vals(), "submitted")
 
     if (parentForm.validate()) {
       dataLayer?.push({
@@ -276,7 +283,8 @@ const TalentSignupPage = () => {
             <StepProgress selected={step >= 4} />
           </StepProgressContainer>
           {!loading ? getStep() : <LoadingText>Loading ...</LoadingText>}
-          <HiddenForm id="mktoForm_1055" name="mktoForm_1055" />
+          {/* <HiddenForm id="mktoForm_1055" name="mktoForm_1055" /> */}
+          <HiddenForm id="mktoForm_1880" name="mktoForm_1880" />
         </MainContainer>
       </FormContainer>
     </PageContainer>
