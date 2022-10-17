@@ -183,7 +183,7 @@ const Step3 = ({ goBack, setFormStepAnswer }) => {
 
     setFormStepAnswer({
       englishProficiency: englishLevel,
-      tLReferredBy: referrerValue,
+      talentReferrefbyEmail: referrerValue,
       howdidyouHearAboutUs: referrer,
       tLSeniorityLevel: totalExperience,
       tLDropzoneLink: resumeUrl,
