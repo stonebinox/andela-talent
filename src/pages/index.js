@@ -138,19 +138,13 @@ const TalentSignupPage = () => {
   }
 
   const submitAllData = formattedForm => {
-    console.log(parentForm.vals(), "first")
-
     const finalisedFormData = {
       ...parentForm.vals(),
       ...formattedForm,
       tLTalentNetworkTerms: true,
     }
 
-    console.log("final", finalisedFormData)
-
     parentForm.vals(finalisedFormData)
-
-    console.log(parentForm.vals(), "submitted")
 
     if (parentForm.validate()) {
       dataLayer?.push({

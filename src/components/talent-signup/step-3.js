@@ -181,13 +181,22 @@ const Step3 = ({ goBack, setFormStepAnswer }) => {
 
     setDisableButton(true)
 
-    setFormStepAnswer({
+    const answer = {
       englishProficiency: englishLevel,
-      talentReferrefbyEmail: referrerValue,
       howdidyouHearAboutUs: referrer,
       tLSeniorityLevel: totalExperience,
       tLDropzoneLink: resumeUrl,
-    })
+    }
+
+    if (referrer === "Referral by Andelan") {
+      answer.talentReferrefbyEmail = referrerValue
+    } else if (referrer === "Referral Other") {
+      answer.referralOther = referrerValue
+    } else if (referrer === "Other") {
+      answer.otherTalentSources = referrerValue
+    }
+
+    setFormStepAnswer(answer)
   }
 
   const loadUploader = () => {
