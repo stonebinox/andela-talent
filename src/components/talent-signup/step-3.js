@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from "react"
 import { ReactSVG } from "react-svg"
+import styled from "styled-components"
 
 import {
   ButtonContainer,
@@ -16,9 +17,19 @@ import { InputLabel, LabelSubtext, StepQuestion } from "./talent-signup.styles"
 import Code from "../../images/code.svg"
 import People from "../../images/people.svg"
 import PersonGear from "../../images/person-gear.svg"
+import Envelope from "../../images/envelope.svg"
+import Person1 from "../../images/person-1.svg"
 import { getDataLayer, getSendSafely } from "../../utils/api"
 import { greenBlack, greyWhite } from "../../utils/colors"
 import { spacing } from "../../utils/spacing"
+
+const PersonSVG = styled(ReactSVG)`
+  width: ${spacing.customSpacing("20px")};
+  height: ${spacing.customSpacing("20px")};
+  margin-top: -${spacing.customSpacing("6px")};
+  margin-left: -${spacing.customSpacing("10px")};
+  margin-right: ${spacing.QUARTER_BASE_SPACING};
+`
 
 const options = [
   "Native",
@@ -46,11 +57,31 @@ const yearsOptions = [
   },
 ]
 
+const referralOptions = [
+  "Job Posts",
+  "Social Media",
+  "Search Engine",
+  "Advertising",
+  "News",
+  "Email",
+  "In-Person Event",
+  "Word of mouth",
+  "Referral by Andelan",
+  "Referral by Others",
+  "Other",
+]
+
 const Step3 = ({ goBack, setFormStepAnswer }) => {
   const [englishLevel, setEnglishLevel] = useState("Select...")
   const [invalidEnglishLevel, setInvalidEnglishLevel] = useState(false)
 
-  const [referrer, setReferrer] = useState("")
+  const [referrer, setReferrer] = useState("Select...")
+  const [referrerValue, setReferrerValue] = useState("")
+  const [displayReferrerEmail, setDisplayReferrerEmail] = useState(false)
+  const [displayReferrerField, setDisplayReferrerField] = useState(false)
+  const [displayReferrerFieldError, setDisplayReferrerFieldError] =
+    useState(false)
+
   const [totalExperience, setTotalExperience] = useState("Select...")
   const [invalidExperience, setInvalidExperience] = useState(false)
   const [sendSafelyWidget, setSendSafelyWidget] = useState(null)
@@ -65,15 +96,7 @@ const Step3 = ({ goBack, setFormStepAnswer }) => {
   const finalizeUpload = () => {
     if (disableButton) return
 
-    if (sendSafelyWidget?.nbrOfFilesAttached <= 0) {
-      alert("Please attach your resume before submitting.")
-      return
-    }
-
-    if (sendSafelyWidget?.nbrOfFilesAttached > 1) {
-      alert("Please attach only one file to submit.")
-      return
-    }
+    if (!validateFields()) return
 
     sendSafelyWidget?.finalizePackage(url => {
       setResumeUrl(url)
@@ -90,23 +113,57 @@ const Step3 = ({ goBack, setFormStepAnswer }) => {
     }
   }
 
-  const submitAnswer = () => {
+  const validateFields = () => {
     setInvalidEnglishLevel(false)
     setInvalidExperience(false)
-    setDisableButton(true)
+    setDisplayReferrerFieldError(false)
 
     if (englishLevel === "Select...") {
       alert("Please select your English proficiency level.")
       setInvalidEnglishLevel(true)
-      return
+      return false
     }
 
     if (totalExperience === "Select...") {
       alert("Please select your total work experience.")
       setInvalidExperience(true)
-      return
+      return false
     }
 
+    if (
+      referrer === "Referral by Andelan" &&
+      (referrerValue?.trim() === "" ||
+        !/[+\w0-9._-]+@[\w0-9._-]+\.[\w0-9_-]+/.test(referrerValue) ||
+        referrerValue.indexOf("@andela.") === -1)
+    ) {
+      setDisplayReferrerFieldError(true)
+      alert("Please enter a valid Andelan email address.")
+      return false
+    }
+
+    if (
+      (referrer === "Referral by Others" || referrer === "Other") &&
+      referrerValue?.trim() === ""
+    ) {
+      setDisplayReferrerFieldError(true)
+      alert("Please enter some text for referral source.")
+      return false
+    }
+
+    if (sendSafelyWidget?.nbrOfFilesAttached <= 0) {
+      alert("Please attach your resume before submitting.")
+      return false
+    }
+
+    if (sendSafelyWidget?.nbrOfFilesAttached > 1) {
+      alert("Please attach only one file to submit.")
+      return false
+    }
+
+    return true
+  }
+
+  const submitAnswer = () => {
     dataLayer?.push(
       {
         event: "dataLayerEvent",
@@ -122,12 +179,24 @@ const Step3 = ({ goBack, setFormStepAnswer }) => {
       }
     )
 
-    setFormStepAnswer({
+    setDisableButton(true)
+
+    const answer = {
       englishProficiency: englishLevel,
-      tLReferredBy: referrer,
+      howdidyouHearAboutUs: referrer,
       tLSeniorityLevel: totalExperience,
       tLDropzoneLink: resumeUrl,
-    })
+    }
+
+    if (referrer === "Referral by Andelan") {
+      answer.talentReferrefbyEmail = referrerValue
+    } else if (referrer === "Referral by Others") {
+      answer.referralOther = referrerValue
+    } else if (referrer === "Other") {
+      answer.otherTalentSources = referrerValue
+    }
+
+    setFormStepAnswer(answer)
   }
 
   const loadUploader = () => {
@@ -165,6 +234,19 @@ const Step3 = ({ goBack, setFormStepAnswer }) => {
       submitAnswer()
     }
   }, [resumeUrl])
+
+  useEffect(() => {
+    if (referrer === "Referral by Andelan") {
+      setDisplayReferrerEmail(true)
+      setDisplayReferrerField(false)
+    } else if (referrer === "Referral by Others" || referrer === "Other") {
+      setDisplayReferrerEmail(false)
+      setDisplayReferrerField(true)
+    } else {
+      setDisplayReferrerEmail(false)
+      setDisplayReferrerField(false)
+    }
+  }, [referrer])
 
   useEffect(() => {
     loadUploader()
@@ -207,16 +289,54 @@ const Step3 = ({ goBack, setFormStepAnswer }) => {
               ))}
             </DropdownField>
           </InputContainer>
-          <InputLabel>Referred by (first and last name)</InputLabel>
+          <InputLabel>How did you hear about us? (optional)</InputLabel>
           <InputContainer>
             <ReactSVG src={People} />
-            <InputField
-              type="text"
-              name="referrer"
+            <DropdownField
+              name="referralBy"
               value={referrer}
               onChange={e => setReferrer(e.currentTarget.value)}
-            />
+            >
+              <option value="Select...">Select...</option>
+              {referralOptions.map((option, index) => (
+                <option key={index} value={option}>
+                  {option}
+                </option>
+              ))}
+            </DropdownField>
           </InputContainer>
+          {displayReferrerEmail && (
+            <>
+              <InputLabel>Email address</InputLabel>
+              <InputContainer invalid={displayReferrerFieldError}>
+                <ReactSVG src={Envelope} />
+                <InputField
+                  type="email"
+                  name="email"
+                  label="email"
+                  value={referrerValue}
+                  onChange={e => setReferrerValue(e.currentTarget.value)}
+                  placeholder="Enter a valid Andelan email address"
+                />
+              </InputContainer>
+            </>
+          )}
+          {displayReferrerField && (
+            <>
+              <InputLabel>Name or email</InputLabel>
+              <InputContainer invalid={displayReferrerFieldError}>
+                <PersonSVG src={Person1} />
+                <InputField
+                  type="text"
+                  name="referrerValue"
+                  label="Name or email"
+                  value={referrerValue}
+                  onChange={e => setReferrerValue(e.currentTarget.value)}
+                  placeholder="Please specify"
+                />
+              </InputContainer>
+            </>
+          )}
           <InputLabel>Upload your resume</InputLabel>
           <LabelSubtext>Only PDF files are accepted</LabelSubtext>
           <div id="dropzone" />
