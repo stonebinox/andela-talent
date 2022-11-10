@@ -34,6 +34,8 @@ import { getDataLayer, getMarketoForm } from "../utils/api"
 
 import "./skills/style.css"
 
+const marketoFormId = 1055 // 1880 is the test form
+
 const TalentSignupPage = () => {
   const [loading, setLoading] = useState(true)
   const [step, setStep] = useState(1)
@@ -50,18 +52,21 @@ const TalentSignupPage = () => {
       return
     }
 
-    // form?.loadForm("//hire.andela.com", "449-UCH-555", 1055, finalForm => { <- enable this before going live
+    form?.loadForm(
+      "//hire.andela.com",
+      "449-UCH-555",
+      marketoFormId,
+      finalForm => {
+        setLoading(false)
 
-    form?.loadForm("//hire.andela.com", "449-UCH-555", 1880, finalForm => {
-      setLoading(false)
+        finalForm.onSuccess(() => {
+          window.location = "https://andela.com/join-andela/success/"
+          return false
+        })
 
-      finalForm.onSuccess(() => {
-        window.location = "https://andela.com/join-andela/success/"
-        return false
-      })
-
-      setParentForm(finalForm)
-    })
+        setParentForm(finalForm)
+      }
+    )
   }
 
   const confirmPageRefresh = () => {
@@ -277,8 +282,10 @@ const TalentSignupPage = () => {
             <StepProgress selected={step >= 4} />
           </StepProgressContainer>
           {!loading ? getStep() : <LoadingText>Loading ...</LoadingText>}
-          {/* <HiddenForm id="mktoForm_1055" name="mktoForm_1055" /> */}
-          <HiddenForm id="mktoForm_1880" name="mktoForm_1880" />
+          <HiddenForm
+            id={`mktoForm_${marketoFormId}`}
+            name={`mktoForm_${marketoFormId}`}
+          />
         </MainContainer>
       </FormContainer>
     </PageContainer>
