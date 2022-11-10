@@ -67,7 +67,7 @@ const referralOptions = [
   "In-Person Event",
   "Word of mouth",
   "Referral by Andelan",
-  "Referral Other",
+  "Referral by Others",
   "Other",
 ]
 
@@ -142,7 +142,7 @@ const Step3 = ({ goBack, setFormStepAnswer }) => {
     }
 
     if (
-      (referrer === "Referral Other" || referrer === "Other") &&
+      (referrer === "Referral by Others" || referrer === "Other") &&
       referrerValue?.trim() === ""
     ) {
       setDisplayReferrerFieldError(true)
@@ -190,7 +190,7 @@ const Step3 = ({ goBack, setFormStepAnswer }) => {
 
     if (referrer === "Referral by Andelan") {
       answer.talentReferrefbyEmail = referrerValue
-    } else if (referrer === "Referral Other") {
+    } else if (referrer === "Referral by Others") {
       answer.referralOther = referrerValue
     } else if (referrer === "Other") {
       answer.otherTalentSources = referrerValue
@@ -239,7 +239,7 @@ const Step3 = ({ goBack, setFormStepAnswer }) => {
     if (referrer === "Referral by Andelan") {
       setDisplayReferrerEmail(true)
       setDisplayReferrerField(false)
-    } else if (referrer === "Referral Other" || referrer === "Other") {
+    } else if (referrer === "Referral by Others" || referrer === "Other") {
       setDisplayReferrerEmail(false)
       setDisplayReferrerField(true)
     } else {

@@ -144,7 +144,7 @@ const TalentSignupPage = () => {
       tLTalentNetworkTerms: true,
     }
 
-    parentForm.vals(finalisedFormData)
+    parentForm.vals(finalisedFormData) // assigning the values to marketo here
 
     if (parentForm.validate()) {
       dataLayer?.push({
